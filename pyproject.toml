@@ -1,0 +1,77 @@
+[tool.black]
+line-length = 79
+
+# target-version = ['py36', 'py37', 'py38', 'py39', 'py310']
+
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+experimental-string-processing = true
+
+[tool.isort]
+line_length = 79
+
+multi_line_output = 3
+
+force_single_line = true
+
+# known_standard_library = [
+#     'os', 'sys', 'logging', 're', 'json'
+# ]
+
+# known_third_party = [
+#     'requests', 'numpy', 'pandas'
+# ]
+
+# known_local_folder = [
+#     'myproject',
+#     'mypackage'
+# ]
+
+sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
+
+profile = "black"
+
+[tool.pylint]
+disable = [
+    "too-few-public-methods",
+    "missing-docstring",
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "attribute-defined-outside-init",
+    "too-many-instance-attributes",
+    "global-statement",
+    "global-variable-undefined",
+    "redefined-outer-name",
+]
+
+[tool.poetry]
+name = "rgpuoop"
+version = "0.1.0"
+description = ""
+authors = [ "Nick-voz <nik.vozisow@gmail.com>" ]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlalchemy = "^2.0.34"
+python-dotenv = "^1.0.1"
+psycopg2 = "^2.9.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
