@@ -7,6 +7,7 @@ from typing import Optional
 
 from tkinter_extended.canvas import Canvas
 from tkinter_extended.focus_sensitive_elems import Button
+from tkinter_extended.labeled_entry import LabeledEntryField
 from tkinter_extended.utils import Point
 
 
@@ -38,28 +39,51 @@ class BallOnString:
         self.speed = speed
         self.side = side
 
+        # self.ball_center = Point(
+        #     self.center.x + self.radius,
+        #     self.center.y,
+        # )
+
         self.ball_center = Point(
-            self.center.x + self.radius,
+            self.center.x,
             self.center.y,
         )
+
         self.border: Optional["Point"] = None
 
         self.__draw()
+        self.times = 0
+        self.__continue = True
+
+    def set_times(self, times: int):
+        self.times = times
+
+    def move(self):
+        """Initial the movement loop"""
+        if not self.__continue:
+            self.__continue = True
+            return
+
+        self.__clear_moving_elements()
+        self.__calculate_movement()
+        self.__draw_ball()
+        self.canvas.after(self.speed, self.move)
 
     def __draw(self):
         """draw the ball, the center and line"""
         self.__draw_center()
         self.__draw_ball()
 
-    def move(self):
-        """Initial the movement loop"""
-        self.__clear_moving_elements()
-        self.__update_coordinates()
-        self.__draw_ball()
-        self.canvas.after(self.speed, self.move)
-
-    def __update_coordinates(self):
+    def __calculate_movement(self):
         """Update The ball position based on its distance from the center or border"""
+
+        if (
+            bool(self.times) is False
+            and self.border is None
+            and self.ball_center.dist(self.center) == 0
+        ):
+            self.__continue = False
+            return
 
         if self.border is None and self.ball_center.dist(self.center) != 0:
             self.__move_to_point(self.center)
@@ -67,6 +91,7 @@ class BallOnString:
 
         elif self.border is None:
             self.__calculate_border_point()
+            self.times -= 1
             return
 
         self.__move_to_point(self.border)
@@ -148,8 +173,21 @@ def setup():
         step=1,
     )
 
-    button_move = Button(frame_menu, text="start moving", command=ball.move)
+    def set_times():
+        ball.set_times(int(times_entry.get()))
+
+    button_move = Button(
+        frame_menu,
+        text="start moving",
+        command=lambda: (set_times(), ball.move()),
+    )
+
     button_move.pack(side=TOP)
+
+    times_entry = LabeledEntryField(
+        frame_menu, label_text="Times", entry_width=5
+    )
+    times_entry.pack(side=TOP, fill="none")
 
     side_buttons = (
         ("Left", lambda: ball.set_side(Side.LEFT)),
