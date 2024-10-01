@@ -39,11 +39,6 @@ class BallOnString:
         self.speed = speed
         self.side = side
 
-        # self.ball_center = Point(
-        #     self.center.x + self.radius,
-        #     self.center.y,
-        # )
-
         self.ball_center = Point(
             self.center.x,
             self.center.y,
@@ -60,7 +55,7 @@ class BallOnString:
 
     def move(self):
         """Initial the movement loop"""
-        if not self.__continue:
+        if self.__continue is False:
             self.__continue = True
             return
 
