@@ -68,7 +68,6 @@ def set_up_menu():
     entry_speed.pack(side=TOP)
 
     def set_bus_speed(bus: Bus):
-        print("speed")
         try:
             speed = int(entry_speed.get())
         except ValueError:
@@ -76,7 +75,6 @@ def set_up_menu():
         bus.set_speed(speed)
 
     def set_bus_distance(bus: Bus):
-        print("distance")
         try:
             distance = int(entry_speed.get())
         except ValueError:
