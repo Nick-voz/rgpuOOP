@@ -44,7 +44,8 @@ class ImageOnCanvas:
         self._root.y += delta_y
 
     def move_to(self, point: Point):
-        self._root = point
+        self._root.x = point.x
+        self._root.y = point.y
 
     def clear(self):
         self._canvas.delete(self._img_id)
@@ -68,64 +69,119 @@ class State(Enum):
     moving = auto()
     created = auto()
     stoped = auto()
+    deleted = auto()
 
 
 class Bus:
-    def __init__(self, canvas: Canvas, image_path: str) -> None:
+    def __init__(
+        self,
+        canvas: Canvas,
+        image_path: str,
+        root: Point,
+        img_size: Tuple[int, int] = (70, 50),
+    ) -> None:
         self._canvas = canvas
         self._distance = 500
-        self._speed = 50
-        self._image = ImageOnCanvas(canvas, image_path, Point(0, 0), (70, 50))
+        self._speed = 5
+        self.__root = root
+        self.__size = img_size
+        self._image = ImageOnCanvas(
+            canvas, image_path, Point(root.x, root.y), self.__size
+        )
         self.state = State.created
 
-    def tmp(self):
+    def moving_loop(self):
         if self.state == State.stoped:
             self.state = State.moving
             return
 
+        if self.state == State.created:
+            self.state = State.moving
+
+        if self.state == State.deleted:
+            return
+
+        if self.__is_out_of_distance():
+            self.state = State.stoped
+            return
+
         self._image.clear()
-        self._image.move_on(5, 0)
+        self._image.move_on(self._speed, 0)
         self._image.draw()
-        self._canvas.after(50, self.tmp)
+        self._canvas.after(50, self.moving_loop)
 
     def delete_bus(self):
+        self.state = State.deleted
+        self._image.move_to(self.__root)
         self._image.clear()
 
     def create_bus(self):
+        if self.state == State.deleted:
+            self.state = State.created
+
+        if self.state != State.created:
+            return
+        self.state = State.created
         self._image.draw()
 
     def to_start(self):
-        self.state = State.stoped
+        # self.state = State.stoped
         self._image.clear()
-        self._image.move_to(Point(0, 0))
+        self._image.move_to(self.__root)
         self._image.draw()
-
-    def start_moving(self):
-        self.tmp()
 
     def set_distance(self, distance: int):
         try:
-            self._distance = int(distance)
+            distance = int(distance)
         except ValueError:
             pass
+        self._distance = distance
 
     def set_speed(self, speed: int):
         try:
-            self._speed = int(speed)
+            speed = int(speed / 10)
         except ValueError:
             pass
+        self._speed = speed
+
+    def __is_out_of_distance(self) -> bool:
+        return (
+            self._image._root.x + self.__size[0] + self._speed
+            >= self._distance + self.__root.x
+        )
+
+
+def draw_number_line(canvas: Canvas, width, height):
+    canvas.create_line(0, height // 2, width, height // 2, fill="white")
+
+    for i in range(0, width + 1):
+        x = 10 + i * (width) / width
+        if i % 50 == 0:
+            canvas.create_line(
+                x, height // 2 - 5, x, height // 2 + 5, fill="white"
+            )
+            canvas.create_text(x, height // 2 + 15, text=str(i), fill="white")
+        elif i % 10 == 0:
+
+            canvas.create_line(
+                x, height // 2 - 3, x, height // 2 + 3, fill="white"
+            )
 
 
 def set_up_menu():
     root = Tk()
     root.title("Bus")
 
-    canvas = Canvas(root, width=600, height=100, bg="black")
+    width = 600
+    height = 200
+    canvas = Canvas(root, width=width, height=height, bg="black")
     canvas.pack(side=BOTTOM)
+
+    draw_number_line(canvas, width, height)
 
     dotenv.load_dotenv()
     if BUS_IMG_PATH := getenv("BUS_IMG_PATH"):
-        bus = Bus(canvas, image_path=BUS_IMG_PATH)
+        bus = Bus(canvas, image_path=BUS_IMG_PATH, root=Point(10, 50))
     else:
         print("courd nod get access to bus image file")
         return
@@ -148,7 +204,7 @@ def set_up_menu():
     frame_moving.pack(side=TOP, padx=10, pady=5)
 
     button_start_moving = Button(
-        frame_moving, text="Start moving", command=lambda: bus.start_moving()
+        frame_moving, text="Start moving", command=lambda: bus.moving_loop()
     )
     button_start_moving.pack(side=TOP)
 
@@ -171,7 +227,7 @@ def set_up_menu():
 
     def set_bus_distance(bus: Bus):
         try:
-            distance = int(entry_speed.get())
+            distance = int(entry_distance.get())
         except ValueError:
             return
         bus.set_distance(distance)
