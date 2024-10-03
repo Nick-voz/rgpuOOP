@@ -66,7 +66,7 @@ class Bus:
         self._image.draw()
         self._canvas.after(50, self.moving_loop)
 
-    def remove_bus_from_canvas(self):
+    def delete_bus(self):
         self.state = State.deleted
         self._image.move_to(self.__start_point)
         self._image.clear()
@@ -156,7 +156,7 @@ def set_up_menu():
     buttons = (
         ("Create", lambda: bus.create_bus()),
         ("To start", lambda: bus.to_start()),
-        ("Delete bus", lambda: bus.remove_bus_from_canvas()),
+        ("Delete bus", lambda: bus.delete_bus()),
     )
     for text, command in buttons:
         b = Button(frame_menu_buttons, text=text, command=command)
