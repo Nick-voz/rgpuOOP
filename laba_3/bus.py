@@ -122,6 +122,12 @@ class Bus:
         if self.state != State.created:
             return
         self.state = State.created
+
+        try:
+            self._image.clear()
+        except Exception:
+            pass
+
         self._image.draw()
 
     def to_start(self):
