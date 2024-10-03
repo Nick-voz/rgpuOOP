@@ -75,21 +75,33 @@ class Bus:
         self._canvas = canvas
         self._distance = 500
         self._speed = 50
-        self._image = self._load_image(image_path)
+        self._image = ImageOnCanvas(canvas, image_path, Point(0, 0), (70, 50))
+        self.state = State.created
 
-        self._draw_image(Point(50, 50))
+    def tmp(self):
+        if self.state == State.stoped:
+            self.state = State.moving
+            return
+
+        self._image.clear()
+        self._image.move_on(5, 0)
+        self._image.draw()
+        self._canvas.after(50, self.tmp)
 
     def delete_bus(self):
-        pass
+        self._image.clear()
 
     def create_bus(self):
-        pass
+        self._image.draw()
 
     def to_start(self):
-        pass
+        self.state = State.stoped
+        self._image.clear()
+        self._image.move_to(Point(0, 0))
+        self._image.draw()
 
     def start_moving(self):
-        pass
+        self.tmp()
 
     def set_distance(self, distance: int):
         try:
