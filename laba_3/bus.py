@@ -1,3 +1,4 @@
+import os
 from tkinter import Canvas
 from tkinter import Tk
 from tkinter.constants import BOTTOM
@@ -6,24 +7,55 @@ from tkinter.constants import TOP
 from tkinter.ttk import Frame
 from tkinter.ttk import LabelFrame
 
+import dotenv
+from PIL import Image
+from PIL import ImageTk
+
 from tkinter_extended.focus_sensitive_elems import Button
 from tkinter_extended.labeled_entry import LabeledEntryField
+from tkinter_extended.utils import Point
 
 
 class Bus:
-    def __init__(self) -> None: ...
+    def __init__(self, canvas: Canvas, image_path: str) -> None:
+        self._canvas = canvas
+        self._distance = 500
+        self._speed = 50
+        self._image = self._load_image(image_path)
 
-    def delete_bus(self): ...
+        self._draw_image(Point(50, 50))
 
-    def create_bus(self): ...
+    def delete_bus(self):
+        pass
 
-    def to_start(self): ...
+    def create_bus(self):
+        pass
 
-    def start_moving(self): ...
+    def to_start(self):
+        pass
 
-    def set_distance(self, distance: int): ...
+    def start_moving(self):
+        pass
 
-    def set_speed(self, speed: int): ...
+    def set_distance(self, distance: int):
+        try:
+            self._distance = int(distance)
+        except ValueError:
+            pass
+
+    def set_speed(self, speed: int):
+        try:
+            self._speed = int(speed)
+        except ValueError:
+            pass
+
+    def _draw_image(self, root: Point):
+        self._canvas.create_image(root.x, root.y, image=self._image)
+
+    def _load_image(self, path: str) -> ImageTk.PhotoImage:
+        image = Image.open(path)
+        image = image.resize((75, 50))
+        return ImageTk.PhotoImage(image)
 
 
 def set_up_menu():
@@ -33,7 +65,9 @@ def set_up_menu():
     canvas = Canvas(root, width=600, height=100, bg="black")
     canvas.pack(side=BOTTOM)
 
-    bus = Bus()
+    dotenv.load_dotenv()
+    BUS_IMG_PATH = os.getenv("BUS_IMG_PATH")
+    bus = Bus(canvas, image_path=BUS_IMG_PATH)
 
     frame_menu = Frame(root)
     frame_menu.pack(side=TOP)

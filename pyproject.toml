@@ -70,7 +70,7 @@ python = "^3.10"
 sqlalchemy = "^2.0.34"
 python-dotenv = "^1.0.1"
 psycopg2 = "^2.9.9"
-
+pillow = "^10.4.0"
 
 [build-system]
 requires = ["poetry-core"]
