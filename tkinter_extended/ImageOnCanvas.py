@@ -4,7 +4,8 @@ from typing import Tuple
 
 from PIL import Image
 from PIL import ImageTk
-from utils import Point
+
+from .utils import Point
 
 
 class ImageOnCanvas:
