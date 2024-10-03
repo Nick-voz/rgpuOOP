@@ -66,8 +66,11 @@ def set_up_menu():
     canvas.pack(side=BOTTOM)
 
     dotenv.load_dotenv()
-    BUS_IMG_PATH = os.getenv("BUS_IMG_PATH")
-    bus = Bus(canvas, image_path=BUS_IMG_PATH)
+    if BUS_IMG_PATH := getenv("BUS_IMG_PATH"):
+        bus = Bus(canvas, image_path=BUS_IMG_PATH)
+    else:
+        print("courd nod get access to bus image file")
+        return
 
     frame_menu = Frame(root)
     frame_menu.pack(side=TOP)
