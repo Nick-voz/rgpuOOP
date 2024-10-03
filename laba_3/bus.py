@@ -36,10 +36,13 @@ class Bus:
         self._canvas = canvas
         self._distance = 500
         self._speed = 5
-        self.__root = root
+        self.__start_point = root
         self.__size = img_size
         self._image = ImageOnCanvas(
-            canvas, image_path, Point(root.x, root.y), self.__size
+            canvas,
+            image_path,
+            Point(self.__start_point.x, self.__start_point.y),
+            self.__size,
         )
         self.state = State.created
 
@@ -65,7 +68,7 @@ class Bus:
 
     def delete_bus(self):
         self.state = State.deleted
-        self._image.move_to(self.__root)
+        self._image.move_to(self.__start_point)
         self._image.clear()
 
     def create_bus(self):
@@ -86,7 +89,7 @@ class Bus:
     def to_start(self):
         # self.state = State.stoped
         self._image.clear()
-        self._image.move_to(self.__root)
+        self._image.move_to(self.__start_point)
         self._image.draw()
 
     def set_distance(self, distance: int):
@@ -106,7 +109,7 @@ class Bus:
     def __is_out_of_distance(self) -> bool:
         return (
             self._image._root.x + self.__size[0] + self._speed
-            >= self._distance + self.__root.x
+            >= self._distance + self.__start_point.x
         )
 
 
@@ -178,17 +181,11 @@ def set_up_menu():
     entry_speed.pack(side=TOP)
 
     def set_bus_speed(bus: Bus):
-        try:
-            speed = int(entry_speed.get())
-        except ValueError:
-            return
+        speed = int(entry_speed.get())
         bus.set_speed(speed)
 
     def set_bus_distance(bus: Bus):
-        try:
-            distance = int(entry_distance.get())
-        except ValueError:
-            return
+        distance = int(entry_distance.get())
         bus.set_distance(distance)
 
     frame_moving.bind("<FocusOut>", lambda _: set_bus_speed(bus), add=True)
