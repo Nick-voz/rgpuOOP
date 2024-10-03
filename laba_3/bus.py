@@ -181,17 +181,11 @@ def set_up_menu():
     entry_speed.pack(side=TOP)
 
     def set_bus_speed(bus: Bus):
-        try:
-            speed = int(entry_speed.get())
-        except ValueError:
-            return
+        speed = int(entry_speed.get())
         bus.set_speed(speed)
 
     def set_bus_distance(bus: Bus):
-        try:
-            distance = int(entry_distance.get())
-        except ValueError:
-            return
+        distance = int(entry_distance.get())
         bus.set_distance(distance)
 
     frame_moving.bind("<FocusOut>", lambda _: set_bus_speed(bus), add=True)
