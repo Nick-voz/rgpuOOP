@@ -49,14 +49,6 @@ class Bus:
         except ValueError:
             pass
 
-    def _draw_image(self, root: Point):
-        self._canvas.create_image(root.x, root.y, image=self._image)
-
-    def _load_image(self, path: str) -> ImageTk.PhotoImage:
-        image = Image.open(path)
-        image = image.resize((75, 50))
-        return ImageTk.PhotoImage(image)
-
 
 def set_up_menu():
     root = Tk()
