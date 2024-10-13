@@ -1,18 +1,21 @@
 import tkinter as tk
+from tkinter.ttk import Frame
+from typing import Callable
 from typing import Optional
 
-from translaters import NumTranslater
-
+from laba_2.translaters import NumTranslater
 from tkinter_extended.basic_interface import BasicInterface
+from tkinter_extended.focus_sensitive_elems import Button
 from tkinter_extended.placeholdered_entry import PlaceholderEntry
 
 
 class NumTranslaterInterface(BasicInterface):
     translater: Optional[NumTranslater] = None
 
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.title("NumTranslaterInterface")
+    def __init__(self, root: Frame):
+        self.root = root
+        # TODO: solve this prloblem
+        # self.root.title("NumTranslaterInterface")
 
         self.entry: tk.Entry = PlaceholderEntry(
             self.root, placeholder="Insert decimal value"
@@ -43,6 +46,7 @@ class NumTranslaterInterface(BasicInterface):
 
         self.translater: Optional[NumTranslater] = None
 
+    def mainloop(self):
         self.root.mainloop()
 
     def add_translater(self) -> None:
@@ -87,5 +91,17 @@ class NumTranslaterInterface(BasicInterface):
         self.hide_elements(self.translate_button)
 
 
+def set_up_num_translater(root: Frame, callback: Callable):
+    for widget in root.winfo_children():
+        widget.pack_forget()
+    root.pack()
+    NumTranslaterInterface(root)
+    Button(root, text="Back", command=callback).pack(side=tk.BOTTOM)
+
+
 if __name__ == "__main__":
-    NumTranslaterInterface()
+    root = tk.Tk()
+    frame = Frame(root)
+    set_up_num_translater(frame)
+
+    root.mainloop()

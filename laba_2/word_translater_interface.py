@@ -1,17 +1,20 @@
 import tkinter as tk
+from tkinter.ttk import Frame
+from typing import Callable
 
-from translaters import WordTranslater
-
+from laba_2.translaters import WordTranslater
 from tkinter_extended.basic_interface import BasicInterface
+from tkinter_extended.focus_sensitive_elems import Button
 from tkinter_extended.placeholdered_entry import PlaceholderEntry
 
 
 class WordTranslaterInterface(BasicInterface):
     translater: WordTranslater | None = None
 
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.title("WordTranslaterInterface")
+    def __init__(self, root: Frame):
+        self.root = root
+        # TODO: solve this problem
+        # self.root.title("WordTranslaterInterface")
 
         self.entry = PlaceholderEntry(self.root, "insert word")
         self.entry.pack(padx=10, pady=10)
@@ -40,6 +43,7 @@ class WordTranslaterInterface(BasicInterface):
 
         self.show_elements(self.create_button)
 
+    def mainloop(self):
         self.root.mainloop()
 
     def add_translater(self) -> None:
@@ -63,5 +67,15 @@ class WordTranslaterInterface(BasicInterface):
         self.entry.insert(0, translation)
 
 
+def set_up_word_translater(root: Frame, callback: Callable):
+    for widget in root.winfo_children():
+        widget.pack_forget()
+    WordTranslaterInterface(root)
+    Button(root, text="Back", command=callback).pack(side=tk.BOTTOM)
+
+
 if __name__ == "__main__":
-    WordTranslaterInterface()
+    root = tk.Tk()
+    root = Frame(root)
+    set_up_word_translater(root)
+    root.mainloop()

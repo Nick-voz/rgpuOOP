@@ -1,4 +1,6 @@
 import enum
+from collections.abc import Callable
+from tkinter import BOTTOM
 from tkinter import LEFT
 from tkinter import Tk
 from tkinter.constants import TOP
@@ -149,9 +151,8 @@ class BallOnString:
         self.side = side
 
 
-def setup():
-    root = Tk()
-    root.title("Ball")
+def setup(root: Frame):
+    # root.title("Ball")
 
     frame_menu = Frame(root)
     frame_menu.pack(side=TOP)
@@ -202,6 +203,16 @@ def setup():
     return root
 
 
+def set_up_ball(root: Frame, callback: Callable):
+    for widget in root.winfo_children():
+        widget.pack_forget()
+    setup(root)
+    Button(root, text="Back", command=callback).pack(side=BOTTOM)
+
+
 if __name__ == "__main__":
-    app = setup()
+    root = Tk()
+    frame = Frame(root)
+    frame.pack()
+    app = setup(frame)
     app.mainloop()

@@ -1,8 +1,10 @@
+from tkinter import BOTTOM
 from tkinter import Tk
 from tkinter.constants import LEFT
 from tkinter.constants import TOP
 from tkinter.ttk import Frame
 from tkinter.ttk import Label
+from typing import Callable
 from typing import Optional
 from typing import TypeVar
 
@@ -51,15 +53,18 @@ class PowerChecer:
 
 
 class App:
-    def __init__(self):
-        self.root = Tk()
-        self.root.title("Is power of")
-        self.root.geometry("500x300")
+    def __init__(self, frame: Frame):
+        self.root = frame
+        # self.root.title("Is power of")
+        # self.root.geometry("500x300")
         self.power_checker: Optional["PowerChecer"] = None
+        self.run()
 
     def run(self):
         self.__set_up_mnnu()
         self.__set_up_info()
+
+    def mainloop(self):
         self.root.mainloop()
 
     def __set_up_mnnu(self):
@@ -132,6 +137,16 @@ class App:
         self.anwer_is_positive_and_even.pack(side=TOP)
 
 
+def set_up_power_of(root: Frame, callback: Callable):
+    for widget in root.winfo_children():
+        widget.pack_forget()
+    App(root)
+    Button(root, text="Back", command=callback).pack(side=BOTTOM)
+
+
 if __name__ == "__main__":
-    app = App()
-    app.run()
+    root = Tk()
+    frame = Frame(root)
+    frame.pack()
+    app = App(frame)
+    app.mainloop()

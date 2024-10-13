@@ -6,23 +6,26 @@ from tkinter import StringVar
 from tkinter import Tk
 from tkinter.ttk import Frame
 from tkinter.ttk import LabelFrame
+from typing import Callable
 
-from models import BankAccount
-from models import engine
 from sqlalchemy import Select
 from sqlalchemy.orm import Session
 
+from laba_3.models import BankAccount
+from laba_3.models import engine
 from tkinter_extended.focus_sensitive_elems import Button
 from tkinter_extended.focus_sensitive_elems import Radiobutton
 from tkinter_extended.labeled_entry import LabeledEntryField
 
 
 class BankInterface:
-    def __init__(self) -> None:
-        self.wndow = Tk()
+    def __init__(self, frame: Frame) -> None:
+        self.wndow = frame
 
-        self.wndow.title("Bank")
+        # self.wndow.title("Bank")
         self.show_greeting()
+
+    def mainloop(self):
         self.wndow.mainloop()
 
     def show_greeting(self):
@@ -258,5 +261,15 @@ class BankInterface:
         self.show_manage_menu()
 
 
+def set_up_bank(root: Frame, callback: Callable):
+    for widget in root.winfo_children():
+        widget.pack_forget()
+    BankInterface(root)
+    Button(root, text="Back", command=callback).pack(side=BOTTOM)
+
+
 if __name__ == "__main__":
-    BankInterface()
+    root = Tk()
+    frame = Frame(root)
+    frame.pack()
+    BankInterface(frame).mainloop()

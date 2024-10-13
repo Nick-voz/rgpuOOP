@@ -8,6 +8,7 @@ from tkinter.constants import LEFT
 from tkinter.constants import TOP
 from tkinter.ttk import Frame
 from tkinter.ttk import LabelFrame
+from typing import Callable
 from typing import Tuple
 
 import dotenv
@@ -130,9 +131,9 @@ def draw_number_line(canvas: Canvas, width, height):
             )
 
 
-def set_up_menu():
-    root = Tk()
-    root.title("Bus")
+def set_up_menu(frame: Frame):
+    root = frame
+    # root.title("Bus")
 
     width = 600
     height = 200
@@ -194,7 +195,15 @@ def set_up_menu():
     return root
 
 
+def set_up_bus(root: Frame, callback: Callable):
+    for widget in root.winfo_children():
+        widget.pack_forget()
+    set_up_menu(root)
+    Button(root, text="Back", command=callback).pack(side=BOTTOM)
+
+
 if __name__ == "__main__":
-    root = set_up_menu()
-    if root:
-        root.mainloop()
+    root = Tk()
+    frame = Frame(root)
+    frame.pack()
+    set_up_menu(frame).mainloop()
