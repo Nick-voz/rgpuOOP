@@ -13,8 +13,7 @@ class WordTranslaterInterface(BasicInterface):
 
     def __init__(self, root: Frame):
         self.root = root
-        # TODO: solve this problem
-        # self.root.title("WordTranslaterInterface")
+        self.root.winfo_toplevel().title("WordTranslaterInterface")
 
         self.entry = PlaceholderEntry(self.root, "insert word")
         self.entry.pack(padx=10, pady=10)
@@ -76,6 +75,7 @@ def set_up_word_translater(root: Frame, callback: Callable):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root = Frame(root)
-    set_up_word_translater(root)
+    frame = Frame(root)
+    frame.pack()
+    WordTranslaterInterface(frame)
     root.mainloop()

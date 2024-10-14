@@ -7,11 +7,14 @@ from tkinter_extended.set_up_util import set_up
 
 
 def set_up_main(frame: Frame):
+    frame.winfo_toplevel().title("Main")
     buttons = (("laba 2", set_up_laba_2), ("laba 3", set_up_laba_3))
     set_up(frame, buttons)
 
 
 if __name__ == "__main__":
     root = Tk()
-    set_up_main(Frame(root))
+    frame = Frame(root)
+    frame.pack(fill="both")
+    set_up_main(frame)
     root.mainloop()

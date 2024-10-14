@@ -55,8 +55,7 @@ class PowerChecer:
 class App:
     def __init__(self, frame: Frame):
         self.root = frame
-        # self.root.title("Is power of")
-        # self.root.geometry("500x300")
+        self.root.winfo_toplevel().title("Is power of")
         self.power_checker: Optional["PowerChecer"] = None
         self.run()
 

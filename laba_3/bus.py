@@ -133,7 +133,7 @@ def draw_number_line(canvas: Canvas, width, height):
 
 def set_up_menu(frame: Frame):
     root = frame
-    # root.title("Bus")
+    root.winfo_toplevel().title("Bus")
 
     width = 600
     height = 200

@@ -48,7 +48,7 @@ def move(shape: int, canvas: Canvas):
 
 def set_up_app(frame: Frame):
     root = frame
-    # root.title("Live Button")
+    root.winfo_toplevel().title("Live Button")
     menu_frame = Frame(root)
 
     button_create = Button(

@@ -6,11 +6,11 @@ from laba_3.bank import set_up_bank
 from laba_3.bus import set_up_bus
 from laba_3.live_button import set_up_live_button
 from laba_3.power_of import set_up_power_of
-from tkinter_extended.focus_sensitive_elems import Button
 from tkinter_extended.set_up_util import set_up
 
 
 def set_up_laba_3(frame: Frame, callback: Callable):
+    frame.winfo_toplevel().title("Laba 3")
     buttons = (
         ("Ball", set_up_ball),
         ("Bank", set_up_bank),

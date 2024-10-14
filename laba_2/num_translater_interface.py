@@ -14,8 +14,7 @@ class NumTranslaterInterface(BasicInterface):
 
     def __init__(self, root: Frame):
         self.root = root
-        # TODO: solve this prloblem
-        # self.root.title("NumTranslaterInterface")
+        self.root.winfo_toplevel().title("NumTranslaterInterface")
 
         self.entry: tk.Entry = PlaceholderEntry(
             self.root, placeholder="Insert decimal value"
@@ -99,9 +98,10 @@ def set_up_num_translater(root: Frame, callback: Callable):
     Button(root, text="Back", command=callback).pack(side=tk.BOTTOM)
 
 
+# TODO: change buttons packing behavior so "back" button desplays in the bottom when colling fram main
 if __name__ == "__main__":
     root = tk.Tk()
     frame = Frame(root)
-    set_up_num_translater(frame)
-
-    root.mainloop()
+    frame.pack()
+    interface = NumTranslaterInterface(frame)
+    interface.mainloop()

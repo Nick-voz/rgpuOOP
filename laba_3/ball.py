@@ -152,7 +152,7 @@ class BallOnString:
 
 
 def setup(root: Frame):
-    # root.title("Ball")
+    root.winfo_toplevel().title("Ball")
 
     frame_menu = Frame(root)
     frame_menu.pack(side=TOP)

@@ -22,7 +22,7 @@ class BankInterface:
     def __init__(self, frame: Frame) -> None:
         self.wndow = frame
 
-        # self.wndow.title("Bank")
+        self.wndow.winfo_toplevel().title("Bank")
         self.show_greeting()
 
     def mainloop(self):
