@@ -5,7 +5,7 @@ from .utils import Point
 
 class Canvas(_Canvas):
     def create_circle(self, root: Point, r: float, *args, **kwargs) -> int:
-        delta = r / 2
+        delta = int(r / 2)
         return self.create_oval(
             root.x - delta,
             root.y - delta,
