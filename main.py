@@ -15,6 +15,6 @@ def set_up_main(frame: Frame):
 if __name__ == "__main__":
     root = Tk()
     frame = Frame(root)
-    frame.pack(fill="both")
+    frame.pack()
     set_up_main(frame)
     root.mainloop()
