@@ -1,5 +1,5 @@
 .env
-tmp.py
+*tmp.py
 __pycache__
 .DS_Store
 media/*
