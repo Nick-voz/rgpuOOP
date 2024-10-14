@@ -98,7 +98,6 @@ def set_up_num_translater(root: Frame, callback: Callable):
     Button(root, text="Back", command=callback).pack(side=tk.BOTTOM)
 
 
-# TODO: change buttons packing behavior so "back" button desplays in the bottom when colling fram main
 if __name__ == "__main__":
     root = tk.Tk()
     frame = Frame(root)
