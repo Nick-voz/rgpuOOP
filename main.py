@@ -1,8 +1,8 @@
 from tkinter import Tk
 from tkinter.ttk import Frame
 
-from laba_2.laba_2_main import set_up_laba_2
-from laba_3.laba_3_main import set_up_laba_3
+from laba_2.set_up import set_up_laba_2
+from laba_3.set_up import set_up_laba_3
 from tkinter_extended.set_up_util import set_up
 
 
