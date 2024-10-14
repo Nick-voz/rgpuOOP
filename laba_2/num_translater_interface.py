@@ -24,7 +24,7 @@ class NumTranslaterInterface(BasicInterface):
         self.info_frame = tk.Frame(self.root)
         self.button_frame = tk.Frame(self.root)
         self.info_frame.pack(padx=5, pady=5, side=tk.TOP, fill=tk.X)
-        self.button_frame.pack(padx=5, pady=5, side=tk.BOTTOM, fill=tk.X)
+        self.button_frame.pack(padx=5, pady=5, side=tk.TOP, fill=tk.X)
 
         self.quit_button = tk.Button(
             self.button_frame, text="Close", command=self.root.quit
