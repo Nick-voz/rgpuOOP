@@ -95,7 +95,7 @@ class Point:
         return delta_x, delta_y
 
     def __str__(self) -> str:
-        return f"{self.x=} {self.y=}"
+        return f"({self.x}, {self.y})"
 
 
 if __name__ == "__main__":
