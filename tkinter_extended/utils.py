@@ -96,21 +96,3 @@ class Point:
 
     def __str__(self) -> str:
         return f"({self.x}, {self.y})"
-
-
-if __name__ == "__main__":
-    points = [
-        Point(0, 0),
-        Point(0, 5),
-        Point(5, 0),
-        Point(-5, 0),
-        Point(0, -5),
-        Point(-5, -5),
-    ]
-    a = Point(0, 0)
-    a.x = 10
-    assert a.cords() == (10, 0)
-    print(".cords() warcks successfully")
-    b = [dist(Point(0, 0).cords(), i.cords()) for i in points]
-    assert b == [0.0, 5.0, 5.0, 5.0, 5.0, 7.0710678118654755]
-    print(".dist worsk successfully ")
