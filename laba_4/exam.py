@@ -9,9 +9,8 @@ from tkinter_extended.labeled_entry import LabeledEntryField
 def start_exam(name: str): ...
 
 
-def set_up_menu() -> Tk:
-    root = Tk()
-    root.title("Exam")
+def set_up_menu(root: Frame) -> Tk:
+    root.winfo_toplevel().title("Exam")
 
     frame_menu = Frame(root)
     frame_menu.pack(side=TOP)
@@ -32,5 +31,7 @@ def set_up_menu() -> Tk:
 
 
 if __name__ == "__main__":
-    app = set_up_menu()
+    root = Tk()
+    frame = Frame(root)
+    app = set_up_menu(frame)
     app.mainloop()

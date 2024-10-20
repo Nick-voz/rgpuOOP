@@ -18,3 +18,5 @@ if __name__ == "__main__":
     frame.pack()
     set_up_main(frame)
     root.mainloop()
+
+# TODO: make common utils module
