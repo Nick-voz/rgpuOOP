@@ -12,9 +12,11 @@ from laba_4.database.base import engine
 class Group(Base):
     __tablename__ = "groups"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(length=50))
 
+    # relationships
     students: Mapped[list["Student"]] = relationship(back_populates="group")
 
     def __repr__(self):
@@ -27,9 +29,11 @@ class Group(Base):
 class Topic(Base):
     __tablename__ = "topics"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String())
 
+    # relationships
     exam_questions: Mapped[list["ExamQuestion"]] = relationship(
         "ExamQuestion", back_populates="topic"
     )
@@ -45,9 +49,11 @@ class Topic(Base):
 class Faculty(Base):
     __tablename__ = "faculties"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(length=50))
 
+    # relationships
     students: Mapped[list["Student"]] = relationship(back_populates="faculty")
 
     def __repr__(self):
@@ -60,9 +66,11 @@ class Faculty(Base):
 class Subject(Base):
     __tablename__ = "subjects"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String())
 
+    # relationships
     exam_questions: Mapped[list["ExamQuestion"]] = relationship(
         "ExamQuestion", back_populates="subject"
     )
@@ -77,6 +85,7 @@ class Subject(Base):
 class Student(Base):
     __tablename__ = "students"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(length=50), unique=True)
     second_name: Mapped[str] = mapped_column(String(length=50), nullable=True)
@@ -88,6 +97,7 @@ class Student(Base):
         ForeignKey("faculties.id"), nullable=True
     )
 
+    # relationships
     group: Mapped["Group"] = relationship(back_populates="students")
     faculty: Mapped["Faculty"] = relationship(back_populates="students")
     exams: Mapped[list["Exam"]] = relationship(
@@ -111,11 +121,13 @@ class Student(Base):
 class Exam(Base):
     __tablename__ = "exams"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     student_id: Mapped[int] = mapped_column(ForeignKey("students.id"))
     topic_id: Mapped[int] = mapped_column(ForeignKey("topics.id"))
     subject_id: Mapped[int] = mapped_column(ForeignKey("subjects.id"))
 
+    # relationships
     student: Mapped["Student"] = relationship(
         "Student", back_populates="exams"
     )
@@ -135,12 +147,14 @@ class Exam(Base):
 class StudentResponses(Base):
     __tablename__ = "student_responses"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     answer_id: Mapped[int] = mapped_column(
         ForeignKey("exam_question_answers.id")
     )
     student_id: Mapped[int] = mapped_column(ForeignKey("students.id"))
 
+    # relationships
     answer: Mapped["ExamQuestionAnswers"] = relationship("ExamQuestionAnswers")
     student: Mapped["Student"] = relationship(
         "Student", back_populates="responses"
@@ -161,11 +175,13 @@ class StudentResponses(Base):
 class ExamQuestion(Base):
     __tablename__ = "exam_questions"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     text: Mapped[str] = mapped_column(String(length=150))
     topic_id: Mapped[int] = mapped_column(ForeignKey("topics.id"))
     subject_id: Mapped[int] = mapped_column(ForeignKey("subjects.id"))
 
+    # relationships
     topic: Mapped["Topic"] = relationship(
         "Topic", back_populates="exam_questions"
     )
@@ -186,6 +202,7 @@ class ExamQuestion(Base):
 class ExamQuestionAnswers(Base):
     __tablename__ = "exam_question_answers"
 
+    # fields
     id: Mapped[int] = mapped_column(primary_key=True)
     question_id: Mapped[int] = mapped_column(
         ForeignKey("exam_questions.id"), nullable=False
@@ -193,6 +210,7 @@ class ExamQuestionAnswers(Base):
     text: Mapped[str] = mapped_column(String(length=100))
     is_correct: Mapped[bool] = mapped_column(Boolean())
 
+    # relationships
     question: Mapped["ExamQuestion"] = relationship(
         "ExamQuestion", back_populates="answers"
     )
