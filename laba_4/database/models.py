@@ -17,6 +17,12 @@ class Group(Base):
 
     students: Mapped[list["Student"]] = relationship(back_populates="group")
 
+    def __repr__(self):
+        return f"<Group(id={self.id}, name='{self.name}')>"
+
+    def __str__(self):
+        return self.name
+
 
 class Topic(Base):
     __tablename__ = "topics"
@@ -29,6 +35,12 @@ class Topic(Base):
     )
     exams: Mapped[list["Exam"]] = relationship("Exam", back_populates="topic")
 
+    def __repr__(self):
+        return f"<Topic(id={self.id}, name='{self.name}')>"
+
+    def __str__(self):
+        return self.name
+
 
 class Faculty(Base):
     __tablename__ = "faculties"
@@ -37,6 +49,12 @@ class Faculty(Base):
     name: Mapped[str] = mapped_column(String(length=50))
 
     students: Mapped[list["Student"]] = relationship(back_populates="faculty")
+
+    def __repr__(self):
+        return f"<Faculty(id={self.id}, name='{self.name}')>"
+
+    def __str__(self):
+        return self.name
 
 
 class Subject(Base):
@@ -48,6 +66,12 @@ class Subject(Base):
     exam_questions: Mapped[list["ExamQuestion"]] = relationship(
         "ExamQuestion", back_populates="subject"
     )
+
+    def __repr__(self):
+        return f"<Subject(id={self.id}, name='{self.name}')>"
+
+    def __str__(self):
+        return self.name
 
 
 class Student(Base):
@@ -73,6 +97,16 @@ class Student(Base):
         "StudentResponses", back_populates="student"
     )
 
+    def __repr__(self):
+        res = (
+            f"<Student(id={self.id}, name='{self.name}', "
+            + f"surname='{self.surname}')>"
+        )
+        return res
+
+    def __str__(self):
+        return f"{self.name} {self.surname} {self.second_name or ''}".strip()
+
 
 class Exam(Base):
     __tablename__ = "exams"
@@ -88,6 +122,15 @@ class Exam(Base):
     topic: Mapped["Topic"] = relationship("Topic", back_populates="exams")
     subject: Mapped["Subject"] = relationship("Subject")
 
+    def __repr__(self):
+        return (
+            f"<Exam(id={self.id}, student_id={self.student_id}, "
+            + f"topic_id={self.topic_id})>"
+        )
+
+    def __str__(self):
+        return f"Exam {self.id} for Student {self.student_id}"
+
 
 class StudentResponses(Base):
     __tablename__ = "student_responses"
@@ -102,6 +145,17 @@ class StudentResponses(Base):
     student: Mapped["Student"] = relationship(
         "Student", back_populates="responses"
     )
+
+    def __repr__(self):
+        return (
+            f"<StudentResponse(id={self.id}, student_id={self.student_id}, "
+            + f"answer_id={self.answer_id})>"
+        )
+
+    def __str__(self):
+        return (
+            f"Response by Student {self.student_id}, Answer {self.answer_id}"
+        )
 
 
 class ExamQuestion(Base):
@@ -122,6 +176,12 @@ class ExamQuestion(Base):
         "ExamQuestionAnswers", back_populates="question"
     )
 
+    def __repr__(self):
+        return f"<ExamQuestion(id={self.id}, text='{self.text[:20]}...')>"
+
+    def __str__(self):
+        return self.text
+
 
 class ExamQuestionAnswers(Base):
     __tablename__ = "exam_question_answers"
@@ -136,6 +196,15 @@ class ExamQuestionAnswers(Base):
     question: Mapped["ExamQuestion"] = relationship(
         "ExamQuestion", back_populates="answers"
     )
+
+    def __repr__(self):
+        return (
+            f"<ExamQuestionAnswer(id={self.id}, text='{self.text[:20]}...', "
+            + f"is_correct={self.is_correct})>"
+        )
+
+    def __str__(self):
+        return self.text
 
 
 Base.metadata.create_all(engine)
