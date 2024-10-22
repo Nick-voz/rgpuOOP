@@ -1,11 +1,12 @@
-from base import Base
-from base import engine
 from sqlalchemy import Boolean
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
+
+from laba_4.database.base import Base
+from laba_4.database.base import engine
 
 
 class Group(Base):
@@ -53,9 +54,9 @@ class Student(Base):
     __tablename__ = "students"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(length=50))
-    second_name: Mapped[str] = mapped_column(String(length=50))
-    surname: Mapped[str] = mapped_column(String(length=50))
+    name: Mapped[str] = mapped_column(String(length=50), unique=True)
+    second_name: Mapped[str] = mapped_column(String(length=50), nullable=True)
+    surname: Mapped[str] = mapped_column(String(length=50), nullable=True)
     group_id: Mapped[int] = mapped_column(
         ForeignKey("groups.id"), nullable=True
     )
