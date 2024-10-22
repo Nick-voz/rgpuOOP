@@ -6,6 +6,17 @@ from tkinter_extended.focus_sensitive_elems import Button
 from tkinter_extended.labeled_entry import LabeledEntryField
 
 
+class ExamUI:
+    def __init__(self):
+        pass
+
+    def __get_test_data(self):
+        pass
+
+    def next_question(self):
+        pass
+
+
 def start_exam(name: str): ...
 
 
