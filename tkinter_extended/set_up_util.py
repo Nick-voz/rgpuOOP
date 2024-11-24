@@ -5,9 +5,14 @@ from typing import Callable
 from tkinter_extended.focus_sensitive_elems import Button
 
 
-def set_up(frame: Frame, buttons, callback: Callable = None):
+def clear_frame(frame):
     for widget in frame.winfo_children():
         widget.destroy()
+    return frame
+
+
+def set_up(frame: Frame, buttons, callback: Callable = None):
+    frame = clear_frame(frame)
     frame.pack()
 
     def _callback():
