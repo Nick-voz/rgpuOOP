@@ -1,12 +1,16 @@
 import json
 from collections.abc import Generator
+from tkinter import BOTTOM
 from tkinter import IntVar
 from tkinter import Tk
 from tkinter.constants import TOP
 from tkinter.ttk import Frame
 from tkinter.ttk import Label
+from typing import Callable
 from typing import List
+from typing import TypeVar
 
+import random
 from pydantic import BaseModel
 from pydantic import ValidationError
 
@@ -15,9 +19,21 @@ from tkinter_extended.focus_sensitive_elems import Radiobutton
 from tkinter_extended.labeled_entry import LabeledEntryField
 from tkinter_extended.set_up_util import clear_frame
 
+T = TypeVar("T")
+
+
+def shuffle_list(items: List[T]) -> List[T]:
+    """Return a new list with elements shuffled in random order."""
+    shuffled_items = items[:]
+    random.shuffle(shuffled_items)
+    return shuffled_items
+
+
 student_name: str = ""
 responses: list["Answer"] = []
-GUESTIONS_FILE_PATH = "questions.json"
+GUESTIONS_FILE_PATH = (
+    "/Users/nikitavozisow/projects/rgpuOOP/laba_4/questions.json"
+)
 
 
 class Answer(BaseModel):
@@ -38,32 +54,40 @@ def save_student(name: str) -> None:
 def load_questions() -> Generator["Question"]:
     with open(GUESTIONS_FILE_PATH, "r", encoding="utf8") as file:
         data = json.load(file)
-        questions = []
-        for q_data in data.get("questions", []):
-            try:
-                question = Question(**q_data)
-                questions.append(question)
-            except ValidationError as e:
-                print(
-                    "Validation error for question:",
-                    f"{q_data['text']}, errors: {e.errors()}",
-                )
-        return (q for q in questions)
+    questions = []
+    for q_data in data.get("questions", []):
+        try:
+            question = Question(**q_data)
+            questions.append(question)
+        except ValidationError as e:
+            print(
+                "Validation error for question:",
+                f"{q_data['text']}, errors: {e.errors()}",
+            )
+    questions = shuffle_list(questions)
+    return (q for q in questions)
 
-    return (q for q in sample_questions)
+
+def display_label(frame: Frame, text: str) -> None:
+    label = Label(frame, text=text, font=("Helvetica", 14))
+    label.pack(pady=5)
 
 
 def show_res(frame: Frame) -> None:
-    frame.winfo_toplevel().geometry("250x250")
     frame = clear_frame(frame)
-    correct_answers = [e for e in responses if e.is_correct is True]
+
+    name_display = f"Student: {student_name}"
+
+    correct_answers = [
+        response for response in responses if response.is_correct
+    ]
+
     num_correct = len(correct_answers)
     num_all = len(responses)
-    score = f"{num_correct} / {num_all}"
-    label_name = Label(frame, text=student_name)
-    label_name.pack()
-    label = Label(frame, text=score)
-    label.pack()
+    score_display = f"Score: {num_correct} / {num_all}"
+
+    display_label(frame, name_display)
+    display_label(frame, score_display)
 
 
 def show_question(frame: Frame, questions: Generator["Question"]) -> None:
@@ -122,6 +146,13 @@ def set_up_menu(root: Frame) -> Frame:
     button_start_test.pack()
 
     return root
+
+
+def set_up_exam(root: Frame, callback: Callable):
+    frame = Frame(root)
+    frame = clear_frame(root)
+    set_up_menu(frame)
+    Button(root, text="Back", command=callback).pack(side=BOTTOM)
 
 
 if __name__ == "__main__":
