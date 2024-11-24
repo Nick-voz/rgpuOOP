@@ -27,18 +27,20 @@ multi_line_output = 3
 
 force_single_line = true
 
-# known_standard_library = [
-#     'os', 'sys', 'logging', 're', 'json'
-# ]
+known_standard_library = [
+ "tkinter",
+ "json",
+ "typing",
+ "collections",
+]
 
-# known_third_party = [
-#     'requests', 'numpy', 'pandas'
-# ]
+known_third_party = [
+    "pydantic",
+]
 
-# known_local_folder = [
-#     'myproject',
-#     'mypackage'
-# ]
+known_local_folder = [
+    "laba_4",
+]
 
 sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
 
@@ -73,6 +75,7 @@ python-dotenv = "^1.0.1"
 psycopg2 = "^2.9.9"
 pillow = "^10.4.0"
 debugpy = "^1.8.7"
+pydantic = "^2.10.1"
 
 [build-system]
 requires = ["poetry-core"]
