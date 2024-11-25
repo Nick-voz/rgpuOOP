@@ -32,6 +32,7 @@ known_standard_library = [
  "json",
  "typing",
  "collections",
+  "random",
 ]
 
 known_third_party = [
