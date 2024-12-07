@@ -1,8 +1,14 @@
 import json
+from tkinter import Tk
+from tkinter.ttk import Combobox
+from tkinter.ttk import Frame
+from tkinter.ttk import LabelFrame
 
 from pydantic import BaseModel
 from pydantic import PositiveInt
 from pydantic import TypeAdapter
+
+from tkinter_extended.set_up_util import clear_frame
 
 STUDENTS_FILE_PATH = (
     "/Users/nikitavozisow/projects/rgpuOOP/laba_4/students.json"
@@ -42,8 +48,7 @@ def filter_unique_students(students: list["Student"]) -> list["Student"]:
 
 def write_students_in_file(file_path: str, students: list["Student"]):
     old_students: list["Student"] = load_students_from_file(file_path)
-    combined_students = old_students + students
-    filtered_students = filter_unique_students(combined_students)
+    filtered_students = filter_unique_students(old_students + students)
 
     students_json = TypeAdapter(list["Student"]).dump_json(
         filtered_students, indent=2
@@ -64,23 +69,40 @@ def save_student(file_path: str, student: Student) -> None:
     write_students_in_file(file_path, students)
 
 
+class UI:
+    def __init__(self, frame: Frame, students_file_path: str) -> None:
+        self.frame: Frame = frame
+        self.frame.pack()
+        self.students_file_path = students_file_path
+        self.students: list["Student"] = load_students_from_file(
+            self.students_file_path
+        )
+        self.show_main_window()
+        self.current_student: Student
+
+    def show_main_window(self) -> None:
+        clear_frame(self.frame)
+        self.students_selector: Combobox = Combobox(
+            self.frame, values=[s.name for s in self.students]
+        )
+        self.students_selector.pack()
+
+    def on_select(self) -> None:
+        self.current_student = self.students[0]
+
+    def show_student(self) -> None:
+
+        card = LabelFrame(
+            self.frame, text=f"Student: {self.current_student.name}"
+        )
+        card.pack()
+
+
 def main():
-    tmp = load_students_from_file(STUDENTS_FILE_PATH)
-    write_students_in_file(STUDENTS_FILE_PATH, tmp)
-    print("load example: ", tmp)
-    student = get_student(STUDENTS_FILE_PATH, "exmaple name")
-    print("get example: ", student)
-    # s = Student(
-    #     name="example 3 name",
-    #     faculty="examle faculty",
-    #     course=1,
-    #     group=1,
-    #     marks=[
-    #         Mark(subject_name="math", mark=5),
-    #         Mark(subject_name="computer science", mark=5),
-    #     ],
-    # )
-    # save_student(STUDENTS_FILE_PATH, s)
+ sssroot = Tk()
+    frame = Frame(root)
+    UI(frame, STUDENTS_FILE_PATH)
+    root.mainloop()
 
 
 if __name__ == "__main__":
