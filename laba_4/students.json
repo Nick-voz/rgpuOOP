@@ -16,22 +16,6 @@
     ]
   },
   {
-    "name": "exmaple name 2",
-    "faculty": "examle faculty",
-    "course": 1,
-    "group": 1,
-    "marks": [
-      {
-        "subject_name": "math",
-        "mark": 5
-      },
-      {
-        "subject_name": "computer science",
-        "mark": 5
-      }
-    ]
-  },
-  {
     "name": "example 3 name",
     "faculty": "examle faculty",
     "course": 1,
@@ -39,12 +23,29 @@
     "marks": [
       {
         "subject_name": "math",
-        "mark": 5
+        "mark": 4
       },
       {
         "subject_name": "computer science",
-        "mark": 5
+        "mark": 3
+      }
+    ]
+  },
+  {
+    "name": "exmaple name 2",
+    "faculty": "examle faculty",
+    "course": 1,
+    "group": 1,
+    "marks": [
+      {
+        "subject_name": "math",
+        "mark": 4
+      },
+      {
+        "subject_name": "computer science",
+        "mark": 3
       }
     ]
   }
 ]
+
