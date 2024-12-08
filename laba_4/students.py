@@ -206,10 +206,6 @@ class RootUI:
             frame, text="add student", command=self.add_student
         )
         self.button_new_student.pack()
-        self.button_add_mark = Button(
-            frame, text="add mark", command=self.add_mark
-        )
-        self.button_add_mark.pack()
 
     def add_student(self) -> None:
         self.frame = clear_frame(self.frame)
@@ -228,6 +224,10 @@ class RootUI:
 
     def show_student(self) -> None:
         show_student_card(frame=self.info_frame, student=self.current_student)
+        self.button_add_mark = Button(
+            self.frame, text="add mark", command=self.add_mark
+        )
+        self.button_add_mark.pack()
         self.info_frame.pack()
 
     def add_mark(self) -> None:
