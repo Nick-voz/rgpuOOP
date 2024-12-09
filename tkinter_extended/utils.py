@@ -1,6 +1,13 @@
+from enum import Enum
 from math import dist
-
 from typing_extensions import Tuple
+
+
+class Side(Enum):
+    LEFT = (-1, 0)
+    RIGHT = (1, 0)
+    TOP = (0, -1)
+    BOTTOM = (0, 1)
 
 
 class Point:
