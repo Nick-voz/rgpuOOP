@@ -116,12 +116,12 @@ def set_up_menu(frame: Frame):
 
     def collision_control(balls: list["Ball"]):
         nonlocal collisions
-        for i in range(len((balls))):
-            for k in range(i, len(balls)):
-                if balls[i] is balls[k]:
+        for i, left_ball in enumerate(balls):
+            for _, right_ball in enumerate(i, balls):
+                if left_ball is right_ball:
                     continue
-                if balls[i].has_collision(balls[k]):
-                    balls[k].random_color()
+                if left_ball.has_collision(right_ball):
+                    right_ball.random_color()
                     collisions += 1
         update_colisions_label()
         canvas.after(750, lambda: collision_control(balls))
