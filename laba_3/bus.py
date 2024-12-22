@@ -1,6 +1,3 @@
-from enum import Enum
-from enum import auto
-from os import getenv
 from tkinter import Canvas
 from tkinter import Tk
 from tkinter.constants import BOTTOM
@@ -12,6 +9,9 @@ from typing import Callable
 from typing import Tuple
 
 import dotenv
+from enum import Enum
+from enum import auto
+from os import getenv
 
 from tkinter_extended.focus_sensitive_elems import Button
 from tkinter_extended.ImageOnCanvas import ImageOnCanvas

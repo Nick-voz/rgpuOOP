@@ -134,6 +134,7 @@ def set_up_menu(root: Frame) -> Frame:
     frame_menu.pack(side=TOP)
 
     entry_name = LabeledEntryField(frame_menu, label_text="Name: ")
+    entry_name.pack()
 
     frame_button = Frame(root)
     frame_button.pack()
@@ -149,8 +150,9 @@ def set_up_menu(root: Frame) -> Frame:
 
 
 def set_up_exam(root: Frame, callback: Callable):
+    clear_frame(root)
     frame = Frame(root)
-    frame = clear_frame(root)
+    frame.pack()
     set_up_menu(frame)
     Button(root, text="Back", command=callback).pack(side=BOTTOM)
 

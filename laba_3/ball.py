@@ -1,4 +1,3 @@
-import enum
 from collections.abc import Callable
 from tkinter import BOTTOM
 from tkinter import LEFT
@@ -11,13 +10,7 @@ from tkinter_extended.canvas import Canvas
 from tkinter_extended.focus_sensitive_elems import Button
 from tkinter_extended.labeled_entry import LabeledEntryField
 from tkinter_extended.utils import Point
-
-
-class Side(enum.Enum):
-    LEFT = (-1, 0)
-    RIGHT = (1, 0)
-    TOP = (0, -1)
-    BOTTOM = (0, 1)
+from tkinter_extended.utils import Side
 
 
 class BallOnString:
